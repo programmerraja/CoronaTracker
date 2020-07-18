@@ -450,9 +450,9 @@ function goToState(event)
 
 	//getting state 	
 	let state_name =event.target.innerHTML;
-	localStorage.setItem("state",state_name);
-	localStorage.setItem("prevdate",prevdate);
-	localStorage.setItem("state_data",JSON.stringify(state_data));
+	sessionStorage.setItem("state",state_name);
+	sessionStorage.setItem("prevdate",prevdate);
+	sessionStorage.setItem("state_data",JSON.stringify(state_data));
 	window.location="State"
 
 	
