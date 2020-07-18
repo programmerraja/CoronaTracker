@@ -205,7 +205,6 @@ nav a img
 }
 </style>
 <script >
-window.cache;
 function getAllData(argument)
  	{
  			let Districtlink="https://api.covid19india.org/state_district_wise.json"
@@ -214,7 +213,7 @@ function getAllData(argument)
 			$.getJSON(Districtlink,function(data)
 			{
 				//getting state name clicked by user
-				let state_name=localStorage.getItem("state")
+				let state_name=sessionStorage.getItem("state")
  				
 				if(state_name)
 				{
@@ -224,7 +223,7 @@ function getAllData(argument)
 					//getting the district names 
 					let districts=Object.keys(data[state_name]["districtData"]);
 					//getting user clicked state data for status 
-					let state_data=JSON.parse(localStorage.getItem("state_data"));
+					let state_data=JSON.parse(sessionStorage.getItem("state_data"));
 					//storing the retrived data to var 
 					let tactive=state_data["tactive"];
 					let tconfirmed=state_data["tconfirmed"];
@@ -263,7 +262,7 @@ function getAllData(argument)
 function getPrevDayData(state_code,data_array,hascache) 
 {
 		//getting prev date for state 
-		let prevdate=localStorage.getItem("prevdate")
+		let prevdate=sessionStorage.getItem("prevdate")
 	    prevdate=prevdate.split("-");
 		//creating date object and month start from zero so minus one 
 		prevdate=new Date(prevdate[0],prevdate[1]-1,prevdate[2]);
@@ -340,7 +339,7 @@ function addDataToTable(data_array,prev_data_array,isstatus)
 			let recovered=data_array[2];
 			let deaths=data_array[3];
 			//get prev date 
-			let date=localStorage.getItem("prevdate")
+			let date=sessionStorage.getItem("prevdate")
 			//  img src 
 			let up_img_src="image/upimg.png";
 			let down_img_src="image/downimg.png";
