@@ -17,3 +17,10 @@ once you click the the state name it will get you to the details about the prati
  <li>Design mobile first website (but i make a mistake. i design it  for computer first )</li>
  <li>sharaing data between two pages using loca storage (but it not efficeint i think ) </li>
  </ul>
+
+look the website here <a href="https://programmerraja.github.io/CoronaTrackerIndia/">click here </a>
+
+# what are bugs need to fix ?
+<ul>
+ <li> using other than local storage to share data between two page </li>
+ </ul>
