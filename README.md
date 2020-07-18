@@ -22,5 +22,6 @@ look the website here <a href="https://programmerraja.github.io/CoronaTrackerInd
 
 # what are bugs need to fix ?
 <ul>
- <li> using other than local storage to share data between two page </li>
+ <li> using other than local storage to share data between two page(fixed change local storrage to session storage at 18-07-2020 9:05pm ) </li>
+
  </ul>
