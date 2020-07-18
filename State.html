@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html>
+<head>
+	 <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- google fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital@1&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+	<title>CovidTrackerIndia</title>
+</head>
+<style type="text/css">
+body
+{
+	background-color:black;
+	animation-name:fadein;
+	animation-delay:1.3s;
+	opacity:0;
+	animation-fill-mode: forwards;
+	animation-duration: 3s;
+}
+nav  span
+{
+	color:black;
+	font-size:1.9rem;
+	font-weight:400;
+	font-family:'Merriweather', serif;
+}
+/* style for top status banner*/
+.status
+{
+	background-color:white;
+	font-size:1.5rem;
+	font-style:italic;
+	font-weight:1000;
+	text-align:center;
+	border: 1px solid black;
+	border-radius: 10px;
+	width: 80%;
+	margin:auto;
+	color: black;
+	animation-name:slide;
+	animation-duration: 2s;
+	
+}
+/* style the ul in status */
+.status-list
+{
+	list-style: none;
+	font-size:1.3rem; 
+	font-weight:800;
+	color: black;
+	 
+}
+/* style state name  */
+#state-name
+{
+	text-align:center;
+	margin-top:1rem;
+	color:white;
+	font-size:1.5rem;
+	font-weight:500;
+
+}
+/* style a table container */
+.table-container
+{
+	background-color:black;#f2f2f2;
+	overflow-x:auto;
+}
+/* style the table */
+.table-container table 
+{
+	color:black;
+
+	margin:auto;
+	background-color:white;	
+	text-align: center;
+	width: 80%;
+	animation-name:fadein;
+	animation-delay:2s;
+	opacity:0;
+	animation-fill-mode: forwards;
+	animation-duration: 2s;
+}
+/*style head*/
+.table-container table  thead
+{
+	background-color:#c6c8ca;
+}
+/* style the head of table */
+.table-container table thead  tr th
+{
+	font-size:1.3rem; 
+	font-weight:500;
+	text-indent:.2rem;
+	
+}
+/* style the body of table */
+.table-container table tbody  tr th
+{
+	font-size:1rem; 
+	font-weight:500;
+	font-family:'Merriweather', serif;
+	width:10rem;
+	animation-name:fadein;
+	animation-delay:2s;
+}
+/*style the first col to blue for link */
+.table-container table tbody tr th:nth-child(1)
+{
+	color:blue;
+	cursor: pointer;
+}
+.table-stripeds tbody tr:nth-of-type(odd)
+ {
+  background-color: rgba(0, 0, 0, .01);
+}
+
+@keyframes fadein {
+	0% {
+		opacity: 0;
+	}
+	25% {
+		opacity: 0.25;
+	}
+	50% {
+		opacity: 0.50;
+	}
+	75% {
+		opacity: 0.75;
+	}
+	100%{
+		opacity: 1;
+	}
+}
+@keyframes slide {
+	0% {
+		transform: translateX(-10000px);
+	}
+	100%{
+		transform: translateX(0);
+	}
+}
+/* fro mobile device */
+
+@media  (max-width: 575.98px) 
+{
+nav  span
+{
+	color:black;
+	font-size:.9rem;
+	font-weight:900;
+	font-family:'Merriweather', serif;
+}
+nav a img
+{
+	width:30px;
+	height:30px;
+}
+
+.status-list li
+{
+	margin-right: auto;	 
+}
+
+.table-container
+{
+	
+	overflow-x:auto;
+	/*margin:.1rem !important;*/
+}
+
+/* style the table */
+
+.table-container table 
+{
+	color:black;
+	background-color:white;	
+	margin: 0;
+}
+
+.table-container table thead  tr th
+{
+	font-size:.7rem; 
+	font-weight:500;
+	letter-spacing:.1rem;
+
+}
+
+.table-container table tbody  tr th
+{
+	font-size:.6rem; 
+	font-weight:500;
+	font-family:'Merriweather', serif;
+	width:2rem;
+}
+.table-container table tbody  tr th img
+{
+	width:10px;
+	height:10px;
+}
+}
+</style>
+<script >
+window.cache;
+function getAllData(argument)
+ 	{
+ 			let Districtlink="https://api.covid19india.org/state_district_wise.json"
+ 			
+ 			//getting district data 
+			$.getJSON(Districtlink,function(data)
+			{
+				//getting state name clicked by user
+				let state_name=localStorage.getItem("state")
+ 				
+				if(state_name)
+				{
+					
+					//getting the statecode  names 
+					let state_code=data[state_name]["statecode"];
+					//getting the district names 
+					let districts=Object.keys(data[state_name]["districtData"]);
+					//getting user clicked state data for status 
+					let state_data=JSON.parse(localStorage.getItem("state_data"));
+					//storing the retrived data to var 
+					let tactive=state_data["tactive"];
+					let tconfirmed=state_data["tconfirmed"];
+					let trecovered =state_data["trecovered"];
+					let tdeaths=state_data["tdeaths"];
+
+					let diff_confirm=state_data["diff_confirm"];
+					let diff_recovered=state_data["diff_recovered"];
+					let diff_deaths=state_data["diff_deaths"];
+					//call func to add to it status by passing args 1 at last
+					addDataToTable([tactive,tconfirmed,trecovered,tdeaths],[diff_confirm,diff_recovered,diff_deaths],1)
+					//iterating only district  object
+					for(let i=3;i<districts.length;i++)
+					{
+						let district=districts[i];
+						let active=data[state_name]["districtData"][districts[i]]["active"]
+						let confirmed=data[state_name]["districtData"][districts[i]]["confirmed"]
+						let recovered=data[state_name]["districtData"][districts[i]]["recovered"]
+						let deaths=data[state_name]["districtData"][districts[i]]["deceased"]
+						//call func to add data to table 
+						getPrevDayData(state_code,[active,confirmed,recovered,deaths,district])
+					}
+					//append state name 
+					$("#state-name").text(state_name);
+					
+					
+				
+				}
+				else
+				{
+
+				}
+			})
+ 	}
+//geting prev data to calc the difference 
+function getPrevDayData(state_code,data_array,hascache) 
+{
+		//getting prev date for state 
+		let prevdate=localStorage.getItem("prevdate")
+	    prevdate=prevdate.split("-");
+		//creating date object and month start from zero so minus one 
+		prevdate=new Date(prevdate[0],prevdate[1]-1,prevdate[2]);
+		//calculating prev day by sub one
+
+		prevdate.setDate(prevdate.getDate()-1);
+		// it return day/month/year, hr:min:sec AM
+		prevdate=prevdate.toLocaleString();
+		//spilting date and time 
+		prevdate=prevdate.split(",")[0];
+		// convert day/month/year day month year
+		prevdate=prevdate.split("/");
+		//if day is single digit adding zero to it 
+		if(prevdate[0].length==1)
+		{
+			prevdate[0]="0"+prevdate[0]
+		}
+		//changing date format to year/day/date
+		prevdate=prevdate[2]+"-"+prevdate[0]+"-"+prevdate[1];
+		let link="https://api.covid19india.org/v3/data-"+prevdate+".json";
+		fetch(link).then((response) => {
+    					return response.json()
+  						}).then((data)=>{
+  									//call the func to exctract the prev data from whole data 
+  									extractPrevData(data,data_array,state_code)
+  								}
+  							).catch(()=>{});
+}
+
+function extractPrevData(data,data_array,state_code)
+{
+	//store prev day data in array 
+	let prev_data_array=[]
+	let district=data_array[data_array.length-1]
+	
+	if(data[state_code]!==undefined)
+	{
+		//if not defined push zero to array
+	    if(data[state_code]["districts"][district]["total"]["confirmed"]===undefined)
+		{			    
+	     	prev_data_array.push(0)
+		}
+		else
+		{
+			prev_data_array.push(data[state_code]["districts"][district]["total"]["confirmed"])
+		}
+	    if(data[state_code]["districts"][district]["total"]["recovered"]===undefined)
+	    {
+		    prev_data_array.push(0)
+		}
+		else
+		{
+			prev_data_array.push(data[state_code]["districts"][district]["total"]["recovered"])
+		}			    
+	    //if none one died pushing zero 
+		if(data[state_code]["districts"][district]["total"]["deceased"]===undefined)
+	    {
+		    prev_data_array.push(0)
+		}
+		else
+		{
+				prev_data_array.push(data[state_code]["districts"][district]["total"]["deceased"])
+		}
+		//call func to add data to tabel 
+		addDataToTable(data_array,prev_data_array,0);
+}
+
+}
+function addDataToTable(data_array,prev_data_array,isstatus)
+{
+			//retrive the valu from array 
+			let active=data_array[0];
+			let confirmed=data_array[1];
+			let recovered=data_array[2];
+			let deaths=data_array[3];
+			//get prev date 
+			let date=localStorage.getItem("prevdate")
+			//  img src 
+			let up_img_src="image/upimg.png";
+			let down_img_src="image/downimg.png";
+			let upgreen_img_src="image/upgreenimg.png"
+			//img 
+			let increases="<img src="+up_img_src+" height='10px' width='10px'><span style='font-size:.7rem;'>"
+
+			let decreases="<img src="+down_img_src+" height='15px' width='15px'><span style='font-size:.7rem;'>"
+			//checking if it add to satus or table 
+			if(isstatus==1)
+			{
+				var diff_confirm=prev_data_array[0]
+				var diff_recovered=prev_data_array[1]
+				var diff_deaths=prev_data_array[2]
+			//checking for diff and adding corresponding image for it 
+			    if(diff_confirm>0)
+			    {
+			    	$("#confirmed-no").append(confirmed+increases+diff_confirm+"</span>");
+			    }
+			    //check if is negative to avoid adding img for zero 
+			    else if (diff_confirm<0)
+			    {
+
+			    	$("#confirmed-no").append(confirmed+decreases+Math.abs(diff_confirm)+"</span>");
+			    }
+			    if(diff_deaths>0)
+			    {
+			    	$("#deaths-no").append(deaths+increases+diff_deaths+"</span>");
+			    }
+			    else if(diff_deaths<0)
+			    {
+			    	$("#deaths-no").append(deaths+decreases+Math.abs(diff_deaths)+"</span>");
+			    }
+			    if(diff_recovered>0)
+			    {
+			    	//setting uparrow img for recovered 
+			    	let increases="<img src="+upgreen_img_src+" height='10px' width='10px'><span style='font-size:.7rem;'>"
+			    	$("#recovered-no").append(recovered+increases+diff_recovered+"</span>");
+			    }
+			    else if (diff_recovered<0)
+			    {
+			    	$("#recovered-no").append(recovered+decreases+Math.abs(diff_recovered)+"</span>");
+			    }
+			    $("#active-no").append(active);
+				$("#status-date").text(date);
+			}
+			else
+			{
+				
+				let prev_confirm=prev_data_array[0]
+				let prev_recoverd=prev_data_array[1]
+				let prev_deaths=prev_data_array[2]
+
+				//calculating the difference 
+				let diff_confirm=(confirmed-prev_confirm);
+				let diff_deaths=(deaths-prev_deaths);
+				let diff_recovered=(recovered-prev_recoverd);
+				
+			
+				//add data to table 
+				if(diff_confirm>0)
+				{
+					confirm_pic=confirmed+ "<br>"+increases+diff_confirm;
+				}
+			    else if(diff_confirm<0)
+			    {
+			    	confirm_pic=confirmed+"<br>"+decreases+Math.abs(diff_confirm);
+			    }
+			    else
+			    {
+			    	confirm_pic=confirmed+"<br>"
+			    }
+			    if(diff_deaths>0)
+			    {
+			    	deaths_pic=deaths+ "<br>"+increases+Math.abs(diff_deaths);
+			    }
+			    else if(diff_deaths<0)
+			    {	
+			    	deaths_pic=deaths+"<br>"+decreases+Math.abs(diff_deaths);
+			    }
+			    else
+			    {
+			    	deaths_pic=deaths+ "<br>"
+			    }
+			    if(diff_recovered>0)
+			    {
+			    	//green up arrow for postive result 
+			    	let increases="<img src="+upgreen_img_src+" height='15px' width='15px'><span style='font-size:.5rem;'>"
+			    	recovered_pic=recovered+ "<br>"+increases+diff_recovered;
+			    }
+			    else if(diff_recovered<0)
+			    {
+			    	recovered_pic=recovered+"<br>"+decreases+Math.abs(diff_recovered);	
+			    }
+			    else
+			    {
+			    	recovered_pic=recovered+"<br>"
+			    }
+			    //retriving state value 
+			    let district=data_array[4];
+			    let table_body="<tr>			 					\
+								<th >"+district+"</th> 				  \
+								<th>"+active+"</th> 				 	\
+								<th>"+confirm_pic+"</span></th> 	     \
+								<th>"+recovered_pic+"</span></th> 	     \
+								<th>"+deaths_pic+"</span></th> 		      \
+								<th>"+date+"</span></th> 		      \
+								</tr>";
+				//append the data 
+				$("#table-body").append(table_body);	
+
+		}
+		
+}
+
+document.onload=getAllData();
+
+</script>
+<body>
+<!-- ########################## Navigation ########################-->
+	<nav class="navbar navbar-expand-md border sticky-top " style="background-color:white;" >
+        <!-- nav brand -->
+        <a class="navbar-brand " href="#">
+          <img src="image/covid.png" width="50px" height="50px" class="img-fluid" ><span>CovidTrackerIndia</span></a>
+        <!-- nav bread icon -->
+        <button class="navbar-toggler" data-toggle="collapse" data-target="#target" type="button">
+              <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- navgation menu-->
+        <div class="collapse navbar-collapse  justify-content-end " id="target" style="font-weight:600">
+              <ul class="navbar-nav ">
+                <li class="nav-item nav-link "> <a href=""> Home</a></li>
+                 <li class="nav-item nav-link"><a href="">Tips</a></li>
+                  <li class="nav-item nav-link"><a href="">About Me</a></li>
+              </ul>
+        </div>
+    </nav>
+	<!-- ########################## status live update ########################-->
+	<div class="status mt-2 ">
+		<p id="status-date">Total</p>
+		<ul class="d-flex justify-content-around status-list flex-wrap ">
+			<li >Active<img src="image/reddot.png" height="20px" width="20px"><br><span id="active-no"></span></li>
+			<li >Confirmed<img src="image/confirm.png" height="20px" width="20px"><br><span id="confirmed-no"></span><span id="diff-no"></span></li>
+			<li >Recovered<img src="image/recover.png" height="20px" width="20px"><br><span id="recovered-no"></span><span id="diff-no"></span></li>
+			<li>Deaths<img src="image/death.png" height="20px" width="20px"><br><span id="deaths-no"></span><span id="diff-no"></span></li>
+		</ul>
+	</div>
+    <!-- ########################## Live Table ########################-->
+    <p id="state-name"></p>
+	<div class="table-container d-flex justify-content-start mt-2 ml-2">
+		<table border="2"  class="table-stripeds">
+			<thead class="thead-dark">
+				<tr>
+					<th >District</th>
+					<th>Active</th>
+					<th>Confirmed</th>
+					<th>Recoverd</th>
+					<th>Deaths</th>
+					<th>LastDate</th>
+			    </tr>
+			</thead>
+			<tbody id="table-body">
+			</tbody>
+		</table>
+	</div>
+
+</body>
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+</html>
