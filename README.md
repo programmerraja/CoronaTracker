@@ -1,4 +1,4 @@
-# CoronaTrackerIndia
+# CoronaTracker
 corona tracker website using covid19india <a href="https://api.covid19india.org/"> API </a>
 
 hello guys this is a website using the covid19india API to display the deatil of corona effects in india 
