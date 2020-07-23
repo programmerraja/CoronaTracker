@@ -14,7 +14,7 @@
 <style>
 body
 {
-	background-color:black;
+	background-color:#f6f8fa;
 	animation-name:fadein;
 	animation-delay:1.3s;
 	opacity:0;
@@ -32,45 +32,70 @@ nav  span
 	font-weight:400;
 	font-family:'Merriweather', serif;
 }
-/* style for top status banner*/
 .status
 {
-	background-color:white;
+	
 	font-size:1.5rem;
 	font-style:italic;
 	font-weight:1000;
 	text-align:center;
-	border: 1px solid black;
-	border-radius: 10px;
 	width: 80%;
 	margin:auto;
 	color: black;
 	animation-name:slide;
 	animation-duration: 2s;
-	
+		
 }
-/* style the ul in status */
-.status-list
+#status-p
 {
-	list-style: none;
+	color:black;
+}
+/* style the div in status */
+.status-div
+{
+	
+	height:130px;
+	width:200px;
+	margin:1rem;
+	color: black;
+	background-color:white;
 	font-size:1.3rem; 
 	font-weight:800;
-	color: black;
-	 
+	padding:1rem;
+	border-radius: 10px;
+	
+
 }
+.status-div:nth-child(1)
+{
+	border-bottom: 1rem solid blue;
+}
+.status-div:nth-child(2)
+{
+	border-bottom: 1rem solid  orange;
+}
+.status-div:nth-child(3)
+{
+	border-bottom: 1rem solid green;
+}
+.status-div:nth-child(4)
+{
+	border-bottom: 1rem solid red;
+}
+
 /* style title */
 #title
 {
 	text-align:center;
 	margin-top:1rem;
-	color:white;
+	color:black;
 	font-size:1.5rem;
 	font-weight:500;
 }
 /* style a table container */
 .table-container
 {
-	background-color:black;#f2f2f2;
+	background-color:#f6f8fa;
 	overflow-x:auto;
 }
 /* style the table */
@@ -461,7 +486,7 @@ function goToState(event)
 	sessionStorage.setItem("state",state_name);
 	sessionStorage.setItem("prevdate",prevdate);
 	sessionStorage.setItem("state_data",JSON.stringify(state_data));
-	window.location="State"
+	window.location="state"
 
 	
 }
@@ -480,22 +505,23 @@ document.onload=getAllData();
         <!-- navgation menu-->
         <div class="collapse navbar-collapse  justify-content-end " id="target" style="font-weight:600">
               <ul class="navbar-nav ">
-                <li class="nav-item nav-link "> <a href=""> Home</a></li>
+                <li class="nav-item nav-link "> <a href="cornotracker"> Home</a></li>
                  <li class="nav-item nav-link"><a href="country">country</a></li>
                   <li class="nav-item nav-link"><a href="">About Me</a></li>
               </ul>
         </div>
     </nav>
-	<!-- ########################## status live update  class="ml-5 mr-5"  class="ml-5 mr-5 mt-1"  ########################-->
+	<!-- ########################## status live update  ########################-->
 	<div class="status mt-2 ">
-		<p id="status-date">Today Status</p>
-		<ul class="d-flex justify-content-around status-list flex-wrap ">
-			<li >Active<img src="image/reddot.png" height="20px" width="20px"><br><span id="active-no"></span></li>
-			<li >Confirmed<img src="image/confirm.png" height="20px" width="20px"><br><span id="confirmed-no"></span><span id="diff-no"></span></li>
-			<li >Recovered<img src="image/recover.png" height="20px" width="20px"><br><span id="recovered-no"></span><span id="diff-no"></span></li>
-			<li>Deaths<img src="image/death.png" height="20px" width="20px"><br><span id="deaths-no"></span><span id="diff-no"></span></li>
-		</ul>
+		<p id="status-p">Total</p>
+		<div class="d-flex justify-content-around  flex-wrap ">
+			<div class="status-div">Active<img src="image/reddot.png" height="20px" width="20px"><br><span id="active-no"></span></div>
+			<div class="status-div">Confirmed<img src="image/confirm.png" height="20px" width="20px"><br><span id="confirmed-no"></span><br></div>
+			<div class="status-div">Recovered<img src="image/recover.png" height="20px" width="20px"><br><span id="recovered-no"></span><br></div>
+			<div class="status-div">Deaths<img src="image/death.png" height="20px" width="20px"><br><span id="deaths-no"></span><br></div>
+		</div>
 	</div>
+	
 
 	<!-- ########################## Live Table ########################-->
 	<h2 id="title">All Over India</h2>
