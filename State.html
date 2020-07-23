@@ -11,7 +11,7 @@
 
 	<title>CoronaTracker</title>
 </head>
-<style type="text/css">
+<style>
 body
 {
 	background-color:#03a9f4;
@@ -45,17 +45,14 @@ nav  span
 	color: black;
 	animation-name:slide;
 	animation-duration: 2s;
-	
-	
 }
 #status-p
 {
-	color:black;
+	color:white;
 }
 /* style the div in status */
 .status-div
 {
-	
 	height:130px;
 	width:200px;
 	margin:1rem;
@@ -65,8 +62,6 @@ nav  span
 	font-weight:800;
 	padding:1rem;
 	border-radius: 10px;
-	
-
 }
 .status-div:nth-child(1)
 {
@@ -88,9 +83,42 @@ nav  span
 {
 	text-align:center;
 	margin-top:1rem;
-	color:black;
+	color:white;
 	font-size:1.5rem;
 	font-weight:500;
+}
+
+#search
+{
+	text-align:center;
+	margin-top:1rem;
+	font-size:1rem;
+	
+}
+#search input
+{
+	border-bottom: .1rem solid white;
+	border-top: 0;
+	border-left:0;
+	border-right: 0;
+	background-color:#03a9f4;
+	outline: none !important;
+	color:black;
+	margin-left:4rem;
+	font-weight:600;
+}
+#search input::placeholder
+{
+	color:black;
+}
+
+.hide
+{
+	display: none;
+}
+.show
+{
+	display:"";
 }
 
 /* style state name  */
@@ -98,59 +126,9 @@ nav  span
 {
 	text-align:center;
 	margin-top:1rem;
-	color:black;
+	color:white;
 	font-size:1.5rem;
 	font-weight:500;
-
-}
-/* style a table container */
-.table-container
-{
-	background-color:#03a9f4;#f2f2f2;
-	overflow-x:auto;
-}
-/* style the table */
-.table-container table 
-{
-	color:black;
-
-	margin:auto;
-	background-color:white;	
-	text-align: center;
-	width: 80%;
-	animation-name:fadein;
-	animation-delay:2s;
-	opacity:0;
-	animation-fill-mode: forwards;
-	animation-duration: 2s;
-}
-/*style head*/
-.table-container table  thead
-{
-	background-color:#c6c8ca;
-}
-/* style the head of table */
-.table-container table thead  tr th
-{
-	font-size:1.3rem; 
-	font-weight:500;
-	text-indent:.2rem;
-	
-}
-/* style the body of table */
-.table-container table tbody  tr th
-{
-	font-size:1rem; 
-	font-weight:500;
-	font-family:'Merriweather', serif;
-	width:10rem;
-	animation-name:fadein;
-	animation-delay:2s;
-}
-
-.table-stripeds tbody tr:nth-of-type(odd)
- {
-  background-color: rgba(0, 0, 0, .01);
 }
 
 .district-container
@@ -160,8 +138,6 @@ nav  span
 	justify-content: center;
 	animation-name:fadein;
 	animation-delay:3s;
-	
-
 }
 .district-div
 {
@@ -174,8 +150,6 @@ nav  span
 	font-weight:800;
 	padding:1rem;
 	border-radius: 10px;
-
-	
 }
 .district-name
 {
@@ -188,7 +162,6 @@ nav  span
 {
 	padding: 1rem;
 }
-
 @keyframes fadein {
 	0% {
 		opacity: 0;
@@ -239,59 +212,20 @@ nav a img
 {
 	margin-right: auto;	 
 }
-
-.table-container
-{
-	
-	overflow-x:auto;
-	/*margin:.1rem !important;*/
-}
-
-/* style the table */
-
-.table-container table 
-{
-	color:black;
-	background-color:white;	
-	margin: 0;
-}
-
-.table-container table thead  tr th
-{
-	font-size:.7rem; 
-	font-weight:500;
-	letter-spacing:.1rem;
-
-}
-
-.table-container table tbody  tr th
-{
-	font-size:.6rem; 
-	font-weight:500;
-	font-family:'Merriweather', serif;
-	width:2rem;
-}
-.table-container table tbody  tr th img
-{
-	width:10px;
-	height:10px;
-}
 }
 </style>
 <script >
+var district_name_array=[];
 function getAllData(argument)
  	{
  			let Districtlink="https://api.covid19india.org/state_district_wise.json"
- 			
  			//getting district data 
 			$.getJSON(Districtlink,function(data)
 			{
 				//getting state name clicked by user
 				let state_name=sessionStorage.getItem("state")
- 				
 				if(state_name)
 				{
-					
 					//getting the statecode  names 
 					let state_code=data[state_name]["statecode"];
 					//getting the district names 
@@ -307,8 +241,10 @@ function getAllData(argument)
 					let diff_confirm=state_data["diff_confirm"];
 					let diff_recovered=state_data["diff_recovered"];
 					let diff_deaths=state_data["diff_deaths"];
+
 					//call func to add to it status by passing args 1 at last
 					addDataToTable([tactive,tconfirmed,trecovered,tdeaths],[diff_confirm,diff_recovered,diff_deaths],1)
+					
 					//iterating only district  object
 					for(let i=3;i<districts.length;i++)
 					{
@@ -322,13 +258,10 @@ function getAllData(argument)
 					}
 					//append state name 
 					$("#state-name").text(state_name);
-					
-					
-				
 				}
 				else
 				{
-					window.location.replace("https://programmerraja.github.io/CoronaTrackerIndia/");
+					window.location.replace("https://programmerraja.github.io/coronatracker/index");
 				}
 			})
  	}
@@ -341,7 +274,6 @@ function getPrevDayData(state_code,data_array,hascache)
 		//creating date object and month start from zero so minus one 
 		prevdate=new Date(prevdate[0],prevdate[1]-1,prevdate[2]);
 		//calculating prev day by sub one
-
 		prevdate.setDate(prevdate.getDate()-1);
 		// it return day/month/year, hr:min:sec AM
 		prevdate=prevdate.toLocaleString();
@@ -371,7 +303,6 @@ function extractPrevData(data,data_array,state_code)
 	//store prev day data in array 
 	let prev_data_array=[]
 	let district=data_array[data_array.length-1]
-	
 	if(data[state_code]!==undefined)
 	{
 		//if not defined push zero to array
@@ -402,8 +333,7 @@ function extractPrevData(data,data_array,state_code)
 		}
 		//call func to add data to tabel 
 		addDataToTable(data_array,prev_data_array,0);
-}
-
+	}
 }
 function addDataToTable(data_array,prev_data_array,isstatus)
 {
@@ -412,23 +342,27 @@ function addDataToTable(data_array,prev_data_array,isstatus)
 			let confirmed=data_array[1];
 			let recovered=data_array[2];
 			let deaths=data_array[3];
+
 			//get prev date 
-			let date=sessionStorage.getItem("prevdate")
+			let date=sessionStorage.getItem("prevdate");
+
 			//  img src 
 			let up_img_src="image/upimg.png";
 			let down_img_src="image/downimg.png";
 			let upgreen_img_src="image/upgreenimg.png"
+
 			//img 
 			let increases="<br><img src="+up_img_src+" height='12px' width='12px'><span style='font-size:.7rem;'>"
-
 			let decreases="<br><img src="+down_img_src+" height='12px' width='12px'><span style='font-size:.7rem;'>"
+			
 			//checking if it add to satus or table 
 			if(isstatus==1)
 			{
 				var diff_confirm=prev_data_array[0]
 				var diff_recovered=prev_data_array[1]
 				var diff_deaths=prev_data_array[2]
-			//checking for diff and adding corresponding image for it 
+				
+				//checking for diff and adding corresponding image for it 
 			    if(diff_confirm>0)
 			    {
 			    	$("#confirmed-no").append(confirmed+increases+diff_confirm+"</span>");
@@ -436,7 +370,6 @@ function addDataToTable(data_array,prev_data_array,isstatus)
 			    //check if is negative to avoid adding img for zero 
 			    else if (diff_confirm<0)
 			    {
-
 			    	$("#confirmed-no").append(confirmed+decreases+Math.abs(diff_confirm)+"</span>");
 			    }
 			    if(diff_deaths>0)
@@ -461,8 +394,7 @@ function addDataToTable(data_array,prev_data_array,isstatus)
 				$("#status-date").text(date);
 			}
 			else
-			{
-				
+			{	
 				let prev_confirm=prev_data_array[0]
 				let prev_recoverd=prev_data_array[1]
 				let prev_deaths=prev_data_array[2]
@@ -472,7 +404,6 @@ function addDataToTable(data_array,prev_data_array,isstatus)
 				let diff_deaths=(deaths-prev_deaths);
 				let diff_recovered=(recovered-prev_recoverd);
 				
-			
 				//add data to table 
 				if(diff_confirm>0)
 				{
@@ -513,19 +444,14 @@ function addDataToTable(data_array,prev_data_array,isstatus)
 			    	recovered_pic=recovered+"<br>"
 			    }
 			    //retriving state value 
-			    let district=data_array[4];
-			    let table_body="<tr>			 					\
-								<th >"+district+"</th> 				  \
-								<th>"+active+"</th> 				 	\
-								<th>"+confirm_pic+"</span></th> 	     \
-								<th>"+recovered_pic+"</span></th> 	     \
-								<th>"+deaths_pic+"</span></th> 		      \
-								<th>"+date+"</span></th> 		      \
-								</tr>";
-				//append the data 
-				$("#table-body").append(table_body);	
-				let district_html="<div class='district-div' >												\
-						  			<p class='district-name'>"+district+"<br>"+date+"</p>									\
+			    let district_name=data_array[4];
+			     //push to array for search 
+			    district_name_array.push(district_name.toLowerCase());
+			    //split with space and add only first one and remove dot from it 
+			    let class_name=district_name.split(" ")[0].toLowerCase();
+			  	
+				let district_html="<div class='district-div "+class_name+"'>								\
+						  			<p class='district-name'>"+district_name+"<br>"+date+"</p>					\
 						  			<div class='district-data d-flex flex-wrap justify-content-between' >			\
 						  				<div class='active-district'>Active<br><span id='active-no'>"+active+"</span></div>\
 						  				<div class='confirmed-district'>Confirmed<br><span id='active-no'>"+confirm_pic+"</span></div>\
@@ -538,13 +464,31 @@ function addDataToTable(data_array,prev_data_array,isstatus)
 		}
 		
 }
+function searchdistrict()
+{
+	let search_val=$("#search-input").val().toLowerCase();
+	$("#search-input").val(search_val.toUpperCase());
+	$.each(district_name_array,function(index,district_name){
+				//split the class name if it has space 
+				let class_name=district_name.split(" ")[0].replace(".","")
+				if(district_name.startsWith(search_val))
+				{
+					$("."+class_name).addClass("show");
+					$("."+class_name).removeClass("hide");
+				}
+				else
+				{
+					$("."+class_name).addClass("hide");
+				}
+	});
+}
 
 document.onload=getAllData();
 
 </script>
 <body>
-<!-- ########################## Navigation ########################-->
-	<nav class="navbar navbar-expand-md border sticky-top " style="background-color:white;" >
+	<!-- ########################## Navigation ########################-->
+	<nav class="navbar navbar-expand-md border sticky-top navbar-light" style="background-color:white;" >
         <!-- nav brand -->
         <a class="navbar-brand " href="#">
           <img src="image/covid.png" width="30px" height="30px" class="img-fluid" ><span>CoronaTracker</span></a>
@@ -555,9 +499,9 @@ document.onload=getAllData();
         <!-- navgation menu-->
         <div class="collapse navbar-collapse  justify-content-end " id="target" style="font-weight:600">
               <ul class="navbar-nav ">
-                <li class="nav-item nav-link "> <a href="cornotracker"> Home</a></li>
+                <li class="nav-item nav-link "> <a href="index"> Home</a></li>
                  <li class="nav-item nav-link"><a href="country">Country</a></li>
-                  <li class="nav-item nav-link"><a href="">About Me</a></li>
+                  <li class="nav-item nav-link"><a href="https://github.com/programmerraja">About Me</a></li>
               </ul>
         </div>
     </nav>
@@ -570,13 +514,21 @@ document.onload=getAllData();
 			<div class="status-div">Recovered<img src="image/recover.png" height="20px" width="20px"><br><span id="recovered-no"></span><br></div>
 			<div class="status-div">Deaths<img src="image/death.png" height="20px" width="20px"><br><span id="deaths-no"></span><br></div>
 		</div>
+	
 	</div>
-    <!-- ########################## Live Table ########################-->
+
+	<!-- ########################## search ########################-->
     <p id="state-name"></p>
+    <div id="search">
+				<input type="text" name="search-input" id="search-input"  onkeyup="searchdistrict()" placeholder="SEARCH HERE...">		
+	</div>
+    
+    <!-- ########################## Live Table ########################-->
+
 	<div class="district-container d-flex flex-wrap">
 
-  </div>
-
+    </div>
+	
 </body>
 <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
