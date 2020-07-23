@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-	<title>CovidTrackerIndia</title>
+	<title>CoronaTracker</title>
 </head>
 <style type="text/css">
 body
@@ -20,6 +20,10 @@ body
 	opacity:0;
 	animation-fill-mode: forwards;
 	animation-duration: 3s;
+}
+.img-fluid
+{
+	margin-bottom: .5rem;
 }
 nav  span
 {
@@ -148,6 +152,10 @@ nav  span
 
 @media  (max-width: 575.98px) 
 {
+.img-fluid
+{
+	margin-bottom: 0rem;
+}
 nav  span
 {
 	color:black;
@@ -463,7 +471,7 @@ document.onload=getAllData();
 	<nav class="navbar navbar-expand-md border sticky-top " style="background-color:white;" >
         <!-- nav brand -->
         <a class="navbar-brand " href="#">
-          <img src="image/covid.png" width="50px" height="50px" class="img-fluid" ><span>CovidTrackerIndia</span></a>
+          <img src="image/covid.png" width="50px" height="50px" class="img-fluid" ><span>CoronaTracker</span></a>
         <!-- nav bread icon -->
         <button class="navbar-toggler" data-toggle="collapse" data-target="#target" type="button">
               <span class="navbar-toggler-icon"></span>
@@ -472,7 +480,7 @@ document.onload=getAllData();
         <div class="collapse navbar-collapse  justify-content-end " id="target" style="font-weight:600">
               <ul class="navbar-nav ">
                 <li class="nav-item nav-link "> <a href=""> Home</a></li>
-                 <li class="nav-item nav-link"><a href="">Tips</a></li>
+                 <li class="nav-item nav-link"><a href="country">Country</a></li>
                   <li class="nav-item nav-link"><a href="">About Me</a></li>
               </ul>
         </div>
