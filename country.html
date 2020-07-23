@@ -13,7 +13,7 @@
 <style>
 body
 {
-	background-color:#f6f8fa;
+	background-color:#03a9f4;
 	animation-name:fadein;
 	animation-delay:1.3s;
 	opacity:0;
@@ -78,7 +78,7 @@ nav  span
 }
 .status-div:nth-child(3)
 {
-	border-bottom: 1rem solid green;
+	border-bottom: 1rem solid #00ff00;
 }
 .status-div:nth-child(4)
 {
@@ -210,9 +210,9 @@ function getTodayStatus()
 			let upgreen_img_src="image/upgreenimg.png"
 
 
-			let increases="<br><img src="+up_img_src+" height='15px' width='15px'><span style='font-size:.8rem;'>"
+			let increases="<br><img src="+up_img_src+" height='12px' width='12px'><span style='font-size:.8rem;'>"
 
-			let decreases="<br><img src="+down_img_src+" height='15px' width='15px'><span style='font-size:.8rem;'>"
+			let decreases="<br><img src="+down_img_src+" height='12px' width='12px'><span style='font-size:.8rem;'>"
 			//checking for diff and adding corresponding image for it 
 		    if(today_confirmed>0)
 		    {
@@ -235,7 +235,7 @@ function getTodayStatus()
 		    if(today_recovered>0)
 		    {
 		    	//setting uparrow img for recovered 
-		    	let increases="<br><img src="+upgreen_img_src+" height='15px' width='15px'><span style='font-size:.8rem;'>"
+		    	let increases="<br><img src="+upgreen_img_src+" height='12px' width='12px'><span style='font-size:.8rem;'>"
 		    	$("#recovered-no").append(recovered+increases+today_recovered+"</span>");
 		    }
 		    else if (today_recovered<0)
@@ -274,9 +274,9 @@ function getCountryStatus()
 					let upgreen_img_src="image/upgreenimg.png"
 
 
-					let increases="<img src="+up_img_src+" height='15px' width='15px'><span style='font-size:.8rem;'>"
+					let increases="<img src="+up_img_src+" height='12px' width='12px'><span style='font-size:.8rem;'>"
 
-					let decreases="<img src="+down_img_src+" height='15px' width='15px'><span style='font-size:.8rem;'>"
+					let decreases="<img src="+down_img_src+" height='12px' width='12px'><span style='font-size:.8rem;'>"
 
 					//checking for diff and adding corresponding image for it 
 				
@@ -300,7 +300,7 @@ function getCountryStatus()
 				    if(today_recovered>0)
 				    {
 				    	//setting uparrow img for recovered 
-				    	let increases="<img src="+upgreen_img_src+" height='15px' width='15px'><span style='font-size:.8rem;'>"
+				    	let increases="<img src="+upgreen_img_src+" height='12px' width='12px'><span style='font-size:.8rem;'>"
 						recovered=recovered+increases+today_recovered+"</span>";
 				    }
 				    else if (today_recovered<0)
@@ -309,7 +309,7 @@ function getCountryStatus()
 				    }
 
 					let country_html="<div class='country-div '>															\
-						  			</di<p class='country-name'>"+country_name+"</p>									\
+						  			<p class='country-name'>"+country_name+"</p>									\
 						  			<img src="+img_flag_src+" alt='flag'>													\
 						  			<div class='country-data d-flex flex-wrap justify-content-between' >			\
 						  				<div class='active-country'>Active<br><span id='active-no'>"+active+"</span></div>\
@@ -331,7 +331,7 @@ document.onload=getTodayStatus();
 	<nav class="navbar navbar-expand-md border sticky-top " style="background-color:white;" >
         <!-- nav brand -->
         <a class="navbar-brand " href="#">
-          <img src="image/covid.png" width="45px" height="45px" class="img-fluid" ><span>CoronaTracker</span></a>
+          <img src="image/covid.png" width="30px" height="30px" class="img-fluid" ><span>CoronaTracker</span></a>
         <!-- nav bread icon -->
         <button class="navbar-toggler" data-toggle="collapse" data-target="#target" type="button">
               <span class="navbar-toggler-icon"></span>

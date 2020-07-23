@@ -14,7 +14,7 @@
 <style type="text/css">
 body
 {
-	background-color:#f6f8fa;
+	background-color:#03a9f4;
 	animation-name:fadein;
 	animation-delay:1.3s;
 	opacity:0;
@@ -78,15 +78,23 @@ nav  span
 }
 .status-div:nth-child(3)
 {
-	border-bottom: 1rem solid green;
+	border-bottom: 1rem solid #00ff00;
 }
 .status-div:nth-child(4)
 {
 	border-bottom: 1rem solid red;
 }
+#state-name
+{
+	text-align:center;
+	margin-top:1rem;
+	color:black;
+	font-size:1.5rem;
+	font-weight:500;
+}
 
 /* style state name  */
-#state-name
+#district-name
 {
 	text-align:center;
 	margin-top:1rem;
@@ -98,7 +106,7 @@ nav  span
 /* style a table container */
 .table-container
 {
-	background-color:#f6f8fa;#f2f2f2;
+	background-color:#03a9f4;#f2f2f2;
 	overflow-x:auto;
 }
 /* style the table */
@@ -143,6 +151,42 @@ nav  span
 .table-stripeds tbody tr:nth-of-type(odd)
  {
   background-color: rgba(0, 0, 0, .01);
+}
+
+.district-container
+{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	animation-name:fadein;
+	animation-delay:3s;
+	
+
+}
+.district-div
+{
+	height:auto;
+	width:300px;
+	margin: 2rem;
+	color: black;
+	background-color:white;
+	font-size:1rem; 
+	font-weight:800;
+	padding:1rem;
+	border-radius: 10px;
+
+	
+}
+.district-name
+{
+	font-size:1.3rem;
+	font-style: bold;
+	text-align: center;
+	color:blue;
+}
+.district-data
+{
+	padding: 1rem;
 }
 
 @keyframes fadein {
@@ -375,9 +419,9 @@ function addDataToTable(data_array,prev_data_array,isstatus)
 			let down_img_src="image/downimg.png";
 			let upgreen_img_src="image/upgreenimg.png"
 			//img 
-			let increases="<img src="+up_img_src+" height='10px' width='10px'><span style='font-size:.7rem;'>"
+			let increases="<br><img src="+up_img_src+" height='12px' width='12px'><span style='font-size:.7rem;'>"
 
-			let decreases="<img src="+down_img_src+" height='15px' width='15px'><span style='font-size:.7rem;'>"
+			let decreases="<br><img src="+down_img_src+" height='12px' width='12px'><span style='font-size:.7rem;'>"
 			//checking if it add to satus or table 
 			if(isstatus==1)
 			{
@@ -406,7 +450,7 @@ function addDataToTable(data_array,prev_data_array,isstatus)
 			    if(diff_recovered>0)
 			    {
 			    	//setting uparrow img for recovered 
-			    	let increases="<img src="+upgreen_img_src+" height='10px' width='10px'><span style='font-size:.7rem;'>"
+			    	let increases="<br><img src="+upgreen_img_src+" height='12px' width='12px'><span style='font-size:.7rem;'>"
 			    	$("#recovered-no").append(recovered+increases+diff_recovered+"</span>");
 			    }
 			    else if (diff_recovered<0)
@@ -432,32 +476,32 @@ function addDataToTable(data_array,prev_data_array,isstatus)
 				//add data to table 
 				if(diff_confirm>0)
 				{
-					confirm_pic=confirmed+ "<br>"+increases+diff_confirm;
+					confirm_pic=confirmed+increases+diff_confirm;
 				}
 			    else if(diff_confirm<0)
 			    {
-			    	confirm_pic=confirmed+"<br>"+decreases+Math.abs(diff_confirm);
+			    	confirm_pic=confirmed+decreases+Math.abs(diff_confirm);
 			    }
 			    else
 			    {
-			    	confirm_pic=confirmed+"<br>"
+			    	confirm_pic=confirmed
 			    }
 			    if(diff_deaths>0)
 			    {
-			    	deaths_pic=deaths+ "<br>"+increases+Math.abs(diff_deaths);
+			    	deaths_pic=deaths+ increases+Math.abs(diff_deaths);
 			    }
 			    else if(diff_deaths<0)
 			    {	
-			    	deaths_pic=deaths+"<br>"+decreases+Math.abs(diff_deaths);
+			    	deaths_pic=deaths+decreases+Math.abs(diff_deaths);
 			    }
 			    else
 			    {
-			    	deaths_pic=deaths+ "<br>"
+			    	deaths_pic=deaths
 			    }
 			    if(diff_recovered>0)
 			    {
 			    	//green up arrow for postive result 
-			    	let increases="<img src="+upgreen_img_src+" height='15px' width='15px'><span style='font-size:.5rem;'>"
+			    	let increases="<img src="+upgreen_img_src+" height='12px' width='12px'><span style='font-size:.5rem;'>"
 			    	recovered_pic=recovered+ "<br>"+increases+diff_recovered;
 			    }
 			    else if(diff_recovered<0)
@@ -480,6 +524,16 @@ function addDataToTable(data_array,prev_data_array,isstatus)
 								</tr>";
 				//append the data 
 				$("#table-body").append(table_body);	
+				let district_html="<div class='district-div' >												\
+						  			<p class='district-name'>"+district+"<br>"+date+"</p>									\
+						  			<div class='district-data d-flex flex-wrap justify-content-between' >			\
+						  				<div class='active-district'>Active<br><span id='active-no'>"+active+"</span></div>\
+						  				<div class='confirmed-district'>Confirmed<br><span id='active-no'>"+confirm_pic+"</span></div>\
+						  				<div class='recovered-district'>Recovered<br><span id='active-no'>"+recovered_pic+"</span></div>\
+						  				<div class='deaths-district'>Deaths<br><span id='active-no'>"+deaths_pic+"</span></div><br>\
+						  			</div>"
+					
+					$(".district-container").append(district_html);
 
 		}
 		
@@ -493,7 +547,7 @@ document.onload=getAllData();
 	<nav class="navbar navbar-expand-md border sticky-top " style="background-color:white;" >
         <!-- nav brand -->
         <a class="navbar-brand " href="#">
-          <img src="image/covid.png" width="50px" height="50px" class="img-fluid" ><span>CoronaTracker</span></a>
+          <img src="image/covid.png" width="30px" height="30px" class="img-fluid" ><span>CoronaTracker</span></a>
         <!-- nav bread icon -->
         <button class="navbar-toggler" data-toggle="collapse" data-target="#target" type="button">
               <span class="navbar-toggler-icon"></span>
@@ -519,22 +573,9 @@ document.onload=getAllData();
 	</div>
     <!-- ########################## Live Table ########################-->
     <p id="state-name"></p>
-	<div class="table-container d-flex justify-content-start mt-2 ml-2">
-		<table border="2"  class="table-stripeds">
-			<thead class="thead-dark">
-				<tr>
-					<th >District</th>
-					<th>Active</th>
-					<th>Confirmed</th>
-					<th>Recoverd</th>
-					<th>Deaths</th>
-					<th>LastDate</th>
-			    </tr>
-			</thead>
-			<tbody id="table-body">
-			</tbody>
-		</table>
-	</div>
+	<div class="district-container d-flex flex-wrap">
+
+  </div>
 
 </body>
 <!-- Optional JavaScript -->

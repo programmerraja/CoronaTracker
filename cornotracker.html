@@ -14,7 +14,7 @@
 <style>
 body
 {
-	background-color:#f6f8fa;
+	background-color:#03a9f4;
 	animation-name:fadein;
 	animation-delay:1.3s;
 	opacity:0;
@@ -76,7 +76,7 @@ nav  span
 }
 .status-div:nth-child(3)
 {
-	border-bottom: 1rem solid green;
+	border-bottom: 1rem solid #00ff00;
 }
 .status-div:nth-child(4)
 {
@@ -115,7 +115,7 @@ nav  span
 /*style head*/
 .table-container table  thead
 {
-	background-color:#c6c8ca;
+	background-color:#03a9f4;
 }
 /* style the head of table */
 .table-container table thead  tr th
@@ -143,6 +143,43 @@ nav  span
 }
 .table-stripeds tbody tr:nth-of-type(odd) {
   background-color: rgba(0, 0, 0, .01);
+}
+
+.state-container
+{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	animation-name:fadein;
+	animation-delay:3s;
+	
+
+}
+.state-div
+{
+	height:auto;
+	width:300px;
+	margin: 2rem;
+	color: black;
+	background-color:white;
+	font-size:1rem; 
+	font-weight:800;
+	padding:1rem;
+	border-radius: 10px;
+
+	
+}
+.state-name
+{
+	font-size:1.3rem;
+	font-style: bold;
+	text-align: center;
+	color:blue;
+	cursor: pointer;
+}
+.state-data
+{
+	padding: 1rem;
 }
 @keyframes fadein {
 	0% {
@@ -370,9 +407,9 @@ function addDataToTable(data_array,prev_data_array,isstatus)
 				let upgreen_img_src="image/upgreenimg.png"
 	
 
-				let increases="<img src="+up_img_src+" height='15px' width='15px'><span style='font-size:.7rem;'>"
+				let increases="<br><img src="+up_img_src+" height='12px' width='12px'><span style='font-size:.7rem;'>"
 
-				let decreases="<img src="+down_img_src+" height='15px' width='15px'><span style='font-size:.7rem;'>"
+				let decreases="<br><img src="+down_img_src+" height='12px' width='12px'><span style='font-size:.7rem;'>"
 				//checking if it add to satus or table 
 				if(isstatus==1)
 				{
@@ -398,7 +435,7 @@ function addDataToTable(data_array,prev_data_array,isstatus)
 				    if(diff_recovered>0)
 				    {
 				    	//setting uparrow img for recovered 
-				    	let increases="<img src="+upgreen_img_src+" height='15px' width='15px'><span style='font-size:.7rem;'>"
+				    	let increases="<br><img src="+upgreen_img_src+" height='12px' width='12px'><span style='font-size:.7rem;'>"
 				    	$("#recovered-no").append(recovered+increases+diff_recovered+"</span>");
 				    }
 				    else if (diff_recovered<0)
@@ -414,32 +451,32 @@ function addDataToTable(data_array,prev_data_array,isstatus)
 					
 					if(diff_confirm>0)
 					{
-						confirm_pic=confirmed+ "<br>"+increases+diff_confirm;
+						confirm_pic=confirmed+increases+diff_confirm;
 					}
 				    else if(diff_confirm<0)
 				    {
-				    	confirm_pic=confirmed+"<br>"+decreases+Math.abs(diff_confirm);
+				    	confirm_pic=confirmed+decreases+Math.abs(diff_confirm);
 				    }
 				    if(diff_deaths>0)
 				    {
-				    	deaths_pic=deaths+ "<br>"+increases+Math.abs(diff_deaths);
+				    	deaths_pic=deaths+increases+Math.abs(diff_deaths);
 				    }
 				    else if(diff_deaths<0)
 				    {	
-				    	deaths_pic=deaths+"<br>"+decreases+Math.abs(diff_deaths);
+				    	deaths_pic=deaths+decreases+Math.abs(diff_deaths);
 				    }
 				    if(diff_recovered>0)
 				    {
-				    	let increases="<img src="+upgreen_img_src+" height='15px' width='15px'><span style='font-size:.7rem;'>"
-				    	recovered_pic=recovered+ "<br>"+increases+diff_recovered;
+				    	let increases="<br><img src="+upgreen_img_src+" height='12px' width='12px'><span style='font-size:.7rem;'>"
+				    	recovered_pic=recovered+increases+diff_recovered;
 				    }
 				    else if(diff_recovered<0)
 				    {
-				    	recovered_pic=recovered+"<br>"+decreases+Math.abs(diff_recovered);	
+				    	recovered_pic=recovered+decreases+Math.abs(diff_recovered);	
 				    }
 				    //retriving state value 
 				    let state=data_array[5]
-				    let table_body="<tr>								     \
+				    /*let table_body="<tr>								     \
 									<th class='table-state' onclick='goToState(event)'>"+state+"</th>   \
 									<th>"+active+"</th> 					 \
 									<th>"+confirm_pic+"</span></th> 	     \
@@ -449,7 +486,19 @@ function addDataToTable(data_array,prev_data_array,isstatus)
 									</tr>"
 					//append the data 
 
-					$("#table-body").append(table_body);
+					$("#table-body").append(table_body);*/
+					
+					let state_html="<div class='state-div' >												\
+						  			<p class='state-name' onclick='goToState(event)'>"+state+"<br>"+date+"</p>									\
+						  			<div class='state-data d-flex flex-wrap justify-content-between' >			\
+						  				<div class='active-state'>Active<br><span id='active-no'>"+active+"</span></div>\
+						  				<div class='confirmed-state'>Confirmed<br><span id='active-no'>"+confirm_pic+"</span></div>\
+						  				<div class='recovered-state'>Recovered<br><span id='active-no'>"+recovered_pic+"</span></div>\
+						  				<div class='deaths-state'>Deaths<br><span id='active-no'>"+deaths_pic+"</span></div><br>\
+						  			</div>"
+					
+					$(".state-container").append(state_html);
+					
 					//$(".table-state").click(function goToState(){console.log("d")})
 					
 				}
@@ -458,31 +507,56 @@ function addDataToTable(data_array,prev_data_array,isstatus)
 
 function goToState(event)
 {
-	//get the status data 
-	let tactive=event.target.nextElementSibling.innerText;
+	//get the status data
+ 
+	//it return total text 
+	let array=event.target.nextSibling.nextSibling.innerText.split("\n");
+	
 
-	let tconfirmed=event.target.nextElementSibling.nextElementSibling.innerText;
-	let trecovered=event.target.nextElementSibling.nextElementSibling.nextElementSibling.innerText;
-	let tdeaths=event.target.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.innerText;
+	
+	let tactive=tconfirmed=trecovered=tdeaths=diff_confirm=diff_recovered=diff_deaths=0;
+	if(array[1])
+	{
+		 tactive=array[1];
+	}
+	
+	if(array[3])
+	{
+		 tconfirmed=array[3];
+	}
+	if(array[4])
+	{
+		 diff_confirm=array[4];
+	}
+	if(array[6])
+	{
+		 trecovered=array[6];
+	}
+	if(array[7])
+	{
+		 diff_recovered=array[7];
+	}
+	if(array[9])
+	{
+	 tdeaths=array[9];
+	}
+	if(array[10])
+	{
+		 diff_deaths=array[10];
+	}
 
-	//getting the val of date from table in row [5]
-	let prevdate=event.target.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.nextElementSibling.innerText;
-	//split the number and difference by newline because we add break in the html 
-	let diff_confirm=tconfirmed.split("\n")[1];
-	tconfirmed=tconfirmed.split("\n")[0];
 
+	console.log(tactive, tconfirmed,diff_confirm,trecovered,diff_recovered, tdeaths,diff_deaths)
+	
 
-	let diff_recovered=trecovered.split("\n")[1];
-	trecovered=trecovered.split("\n")[0];
-
-	let diff_deaths=tdeaths.split("\n")[1];
-	tdeaths=tdeaths.split("\n")[0];
 	//store all data as single object 
 	let state_data={"tactive":tactive,"tconfirmed":tconfirmed,"trecovered":trecovered,"tdeaths":tdeaths,
 					"diff_confirm":diff_confirm,"diff_recovered":diff_recovered,"diff_deaths":diff_deaths};
 
 	//getting state 	
-	let state_name =event.target.innerHTML;
+	let state_name =event.target.innerText.split("\n")[0];
+	let prevdate= event.target.innerText.split("\n")[1];
+	console.log(state_name)
 	sessionStorage.setItem("state",state_name);
 	sessionStorage.setItem("prevdate",prevdate);
 	sessionStorage.setItem("state_data",JSON.stringify(state_data));
@@ -506,7 +580,7 @@ document.onload=getAllData();
         <div class="collapse navbar-collapse  justify-content-end " id="target" style="font-weight:600">
               <ul class="navbar-nav ">
                 <li class="nav-item nav-link "> <a href="cornotracker"> Home</a></li>
-                 <li class="nav-item nav-link"><a href="country">country</a></li>
+                 <li class="nav-item nav-link"><a href="country">Country</a></li>
                   <li class="nav-item nav-link"><a href="">About Me</a></li>
               </ul>
         </div>
@@ -525,24 +599,10 @@ document.onload=getAllData();
 
 	<!-- ########################## Live Table ########################-->
 	<h2 id="title">All Over India</h2>
-	<div class="table-container d-flex justify-content-start mt-2 ml-2 " >
-		<table border="2"  class="table-stripeds">
+	
+ <div class="state-container d-flex flex-wrap">
 
-			<thead>
-				<tr>
-					<th >State</th>
-					<th>Active</th>
-					<th>Confirmed</th>
-					<th>Recoverd</th>
-					<th>Deaths</th>
-					<th>LastDate </th>
-			    </tr>
-			</thead>
-			<tbody id="table-body">
-			</tbody>
-		</table>
-	</div>
-
+  </div>
 
 </body>
 <!-- Optional JavaScript -->
