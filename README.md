@@ -31,6 +31,6 @@ take look the website here <a href="https://programmerraja.github.io/coronatrack
 
  ![preview1](image/mywebsite.png)
  
-![preview2](image/mywebsitesc.png)
+![preview2](image/mywebsitec.png)
   
- ![preview3](image/mywebsites.png)
+![preview3](image/mywebsites.png)
