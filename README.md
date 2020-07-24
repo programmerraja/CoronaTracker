@@ -30,3 +30,7 @@ take look the website here <a href="https://programmerraja.github.io/coronatrack
 # website preview
 
  ![preview1](image/mywebsite.png)
+ 
+![preview2](image/mywebsitesc.png)
+  
+ ![preview3](image/mywebsites.png)
