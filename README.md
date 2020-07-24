@@ -1,7 +1,7 @@
 # CoronaTracker
 <p>
-hello guys i build this website to track corona effect in india and around the world  is  using the covid19india <a href="https://api.covid19india.org/"> API </a> to display the deatil of corona effects in india 
-and for show the world wide details using  <a href="https://corona.lmao.ninja/"> lmao API</a></p>
+hello guys i build this website to track corona effect in india and around the world by using the covid19india <a href="https://api.covid19india.org/"> API </a> to display the deatil of corona effects in india 
+and for show the world wide details by using  <a href="https://corona.lmao.ninja/"> lmao API</a></p>
 
 # how i build this ?
  <p> I use html,css,javascript ,boootstrap and jquery to build this website it take around 2 days for me. 
