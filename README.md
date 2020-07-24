@@ -26,3 +26,11 @@ take look the website here <a href="https://programmerraja.github.io/coronatrack
  <li> using other than local storage to share data between two page(fixed change local storrage to session storage at 18-07-2020 9:05PM ) </li>
  <li> have inline css  need to put in seprate file (fixed make separate css file at 24-07-2020 11:30AM )</li>
  </ul>
+
+# website preview
+
+ ![preview1](image/mywebsite.png)
+ 
+![preview2](image/mywebsitec.png)
+  
+![preview3](image/mywebsites.png)
