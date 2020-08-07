@@ -69,6 +69,11 @@ function getPrevDayData(tdate,statecode,data_array) {
 	{
 		prevdate[0]="0"+prevdate[0]
 	}
+	//if date is single digit adding zero to it 
+	if(prevdate[1].length==1)
+	{
+		prevdate[1]="0"+prevdate[1]
+	}
 	//changing date format to year/day/date
 	prevdate=prevdate[2]+"-"+prevdate[0]+"-"+prevdate[1];
 	//link to get prev day data 
