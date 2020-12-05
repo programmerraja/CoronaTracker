@@ -16,7 +16,7 @@ once you click the the state name it will get you to the details about the prati
  <li> how to handle with API </li>
  <li> JS ASYNC </li>
  <li>Design mobile first website (but i make a mistake. i design it  for computer first )</li>
- <li>sharaing data between two pages using loca storage (but it not efficeint i think )</li>
+ <li>sharaing data between two pages using local storage</li>
  </ul>
  
 take look the website here <a href="https://programmerraja.github.io/coronatracker/index">click here </a>
