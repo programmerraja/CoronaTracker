@@ -1,4 +1,5 @@
 var district_name_array=[];
+var state_code;
 function getAllData(argument)
  	{
  			let Districtlink="https://api.covid19india.org/state_district_wise.json"
@@ -10,7 +11,7 @@ function getAllData(argument)
 				if(state_name)
 				{
 					//getting the statecode  names 
-					let state_code=data[state_name]["statecode"];
+					 state_code=data[state_name]["statecode"];
 					//getting the district names 
 					let districts=Object.keys(data[state_name]["districtData"]);
 					//getting user clicked state data for status 
@@ -37,7 +38,7 @@ function getAllData(argument)
 						let recovered=data[state_name]["districtData"][districts[i]]["recovered"]
 						let deaths=data[state_name]["districtData"][districts[i]]["deceased"]
 						//call func to add data to table 
-						getPrevDayData(state_code,[active,confirmed,recovered,deaths,district])
+						getPrevDayData([active,confirmed,recovered,deaths,district])
 					}
 					//append state name 
 					$("#state-name").text(state_name);
@@ -46,10 +47,10 @@ function getAllData(argument)
 				{
 					window.location.replace("https://programmerraja.github.io/coronatracker/index");
 				}
-			})
+			}).fail(handleError);
  	}
 //geting prev data to calc the difference 
-function getPrevDayData(state_code,data_array,hascache) 
+function getPrevDayData(data_array,hascache) 
 {
 		//getting prev date for state 
 		let prevdate=sessionStorage.getItem("prevdate")
@@ -82,12 +83,12 @@ function getPrevDayData(state_code,data_array,hascache)
     					return response.json()
   						}).then((data)=>{
   									//call the func to exctract the prev data from whole data 
-  									extractPrevData(data,data_array,state_code)
+  									extractPrevData(data,data_array)
   								}
-  							).catch(()=>{});
+  							).catch(handleError);
 }
 
-function extractPrevData(data,data_array,state_code)
+function extractPrevData(data,data_array)
 {
 	//store prev day data in array 
 	let prev_data_array=[]
@@ -124,7 +125,7 @@ function extractPrevData(data,data_array,state_code)
 		addDataToTable(data_array,prev_data_array,0);
 	}
 }
-function addDataToTable(data_array,prev_data_array,isstatus)
+function addDataToTable(data_array,prev_data_array,isstatus,isold=0)
 {
 			//retrive the valu from array 
 			let active=data_array[0];
@@ -133,7 +134,7 @@ function addDataToTable(data_array,prev_data_array,isstatus)
 			let deaths=data_array[3];
 
 			//get prev date 
-			let date=sessionStorage.getItem("prevdate");
+			var date=sessionStorage.getItem("prevdate");
 
 			//  img src 
 			let up_img_src="image/upimg.png";
@@ -189,9 +190,20 @@ function addDataToTable(data_array,prev_data_array,isstatus)
 				let prev_deaths=prev_data_array[2]
 
 				//calculating the difference 
-				let diff_confirm=(confirmed-prev_confirm);
-				let diff_deaths=(deaths-prev_deaths);
-				let diff_recovered=(recovered-prev_recoverd);
+				if(!isold)
+				{
+					//calculating the difference 
+					var diff_confirm=(confirmed-prev_confirm);
+					var diff_deaths=(deaths-prev_deaths);
+					var diff_recovered=(recovered-prev_recoverd);
+				}
+				else
+				{
+					var diff_confirm=prev_confirm;
+					var diff_deaths=prev_deaths;
+					var diff_recovered	=prev_recoverd;
+					 date=data_array[5];
+				}
 				
 				//add data to table 
 				if(diff_confirm>0)
@@ -232,8 +244,17 @@ function addDataToTable(data_array,prev_data_array,isstatus)
 			    {
 			    	recovered_pic=recovered+"<br>"
 			    }
+			    //checking if active persent or not
+			    if(active)
+			    {
+					var active_element= "<div class='active-state'>Active<br><span id='active-no'>"+active+"</span></div>"
+
+			    }
+			    else{
+			    	var active_element="<div></div>";
+			    }
 			    //retriving state value 
-			    let district_name=data_array[4];
+			    let district_name=data_array[4]?data_array[4]:"unknown state";
 			     //push to array for search 
 			    district_name_array.push(district_name.toLowerCase());
 			    //split with space and add only first one and remove dot from it 
@@ -241,9 +262,9 @@ function addDataToTable(data_array,prev_data_array,isstatus)
 			  	
 				let district_html="<div class='district-div "+class_name+"'>								\
 						  			<p class='district-name'>"+district_name+"<br>"+date+"</p>					\
-						  			<div class='district-data d-flex flex-wrap justify-content-between' >			\
-						  				<div class='active-district'>Active<br><span id='active-no'>"+active+"</span></div>\
-						  				<div class='confirmed-district'>Confirmed<br><span id='active-no'>"+confirm_pic+"</span></div>\
+						  			<div class='district-data d-flex flex-wrap justify-content-between' >	\
+						  				"+active_element+
+						  				"<div class='confirmed-district'>Confirmed<br><span id='active-no'>"+confirm_pic+"</span></div>\
 						  				<div class='recovered-district'>Recovered<br><span id='active-no'>"+recovered_pic+"</span></div>\
 						  				<div class='deaths-district'>Deaths<br><span id='active-no'>"+deaths_pic+"</span></div><br>\
 						  			</div>"
@@ -253,10 +274,9 @@ function addDataToTable(data_array,prev_data_array,isstatus)
 		}
 		
 }
-function searchdistrict()
+function searchDistrict()
 {
-	let search_val=$("#search-input").val().toLowerCase();
-	$("#search-input").val(search_val.toUpperCase());
+	let search_val=$("#search_input").val().toLowerCase();
 	$.each(district_name_array,function(index,district_name){
 				//split the class name if it has space 
 				let class_name=district_name.split(" ")[0].replace(".","")
@@ -271,4 +291,107 @@ function searchdistrict()
 				}
 	});
 }
+function search()
+{
+	let search_button=document.querySelector("#search_button");
+
+	search_button.addEventListener("click",function(){
+		let date=$("#search_date").val();		
+		if(date)
+		{
+			getSpecificData(date);
+		}
+	});
+}
+
+function getSpecificData(date)
+{
+	$(".district-container").empty();
+	let link="https://api.covid19india.org/v3/data-"+date+".json";
+	$.getJSON(link,function(datas){
+		datas=datas[state_code];
+		 datas=datas["districts"];
+		for(data in datas){
+				var data_array=[];
+				var prev_data_array=[];
+				let district_name=data;
+				data=datas[data];
+				//to put active as zero
+				data_array.push(0);
+				
+				if(data["delta"])
+				{
+					if(data["delta"]["confirmed"]===undefined)
+					{			    
+				     	prev_data_array.push(0)
+					}
+					else
+					{
+						prev_data_array.push(data["delta"]["confirmed"])
+					}
+				    if(data["delta"]["recovered"]===undefined)
+				    {
+					    prev_data_array.push(0)
+					}
+					else
+					{
+						prev_data_array.push(data["delta"]["recovered"])
+					}			    
+				    //if none one died pushing zero 
+					if(data["delta"]["deceased"]===undefined)
+				    {
+					    prev_data_array.push(0)
+					}
+					else
+					{
+							prev_data_array.push(data["delta"]["deceased"])
+					}
+				}
+				if(data["total"])
+				{
+					if(data["total"]["confirmed"]===undefined)
+					{			    
+				     	data_array.push(0)
+					}
+					else
+					{
+						data_array.push(data["total"]["confirmed"])
+					}
+				    if(data["total"]["recovered"]===undefined)
+				    {
+					    data_array.push(0)
+					}
+					else
+					{
+						data_array.push(data["total"]["recovered"])
+					}			    
+				    //if none one died pushing zero 
+					if(data["total"]["deceased"]===undefined)
+				    {
+					    data_array.push(0)
+					}
+					else
+					{
+						data_array.push(data["total"]["deceased"])
+					}
+				}
+				data_array[4]=district_name;
+				data_array[5]=date;
+				addDataToTable(data_array,prev_data_array,0,1);
+			}
+			
+		});
+	//call search func if user typed something
+	searchDistrict();
+
+}
+function handleError()
+{
+	$(".error_container").css({"display":"flex;"});
+	$(".error-msg").text("Sorry for inconvenience try again later");
+}
+search();
 getAllData();
+$("#date_search").val(new Date().toDateInputValue());
+
+

@@ -51,7 +51,7 @@ function getTodayStatus()
 		    	$("#recovered-no").append(recovered+decreases+Math.abs(today_recovered)+"</span>");
 		    }
 		    $("#active-no").append(active);
-			});
+			}).fail(handleError);
 			getCountryStatus()
 
 }
@@ -123,8 +123,8 @@ function getCountryStatus()
 						  				<div class='deaths-country'>Deaths<br><span id='active-no'>"+deaths+"</span></div><br>\
 						  			</div>"
 					$(".country-container").append(country_html);
-				})
-			});
+				});
+			}).fail(handleError);
 }
 function searchCountry()
 {
@@ -144,5 +144,12 @@ function searchCountry()
 				}
 	});
 
+}
+
+function handleError()
+{
+	console.log("dd")
+	$(".error_container").css({"display":"intial;"});
+	$(".error-msg").text("Sorry for inconvenience try again later");
 }
 getTodayStatus();

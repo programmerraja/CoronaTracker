@@ -32,6 +32,7 @@ nav  span
 	animation-duration: 2s;
 		
 }
+
 /* top heading */
 #status-p
 {
@@ -50,8 +51,13 @@ nav  span
 	font-weight:800;
 	padding:1rem;
 	border-radius: 10px;
+	box-shadow: 9px 11px black;
 	
 
+}
+.status-div:hover
+{
+	transform: scale(1.1);
 }
 /* styling the border */
 .status-div:nth-child(1)
@@ -81,7 +87,17 @@ nav  span
 	font-size:1.5rem;
 	font-weight:500;
 }
-
+.error_container
+{
+	display: none;
+	font-size: 2rem;
+	color: white;
+	margin: auto;
+    height: 200px;
+    justify-content: center;
+    align-items: center;
+    width: 50%;
+}
 #search
 {
 	text-align:center;
@@ -89,7 +105,9 @@ nav  span
 	font-size:1rem;
 	
 }
-#search input
+#search input[type='text'],
+#search input[type='date']
+
 {
 	border-bottom: .1rem solid white;
 	border-top: 0;
@@ -100,7 +118,20 @@ nav  span
 	color:black;
 	margin-left: 2rem;
 	font-weight:600;
+	width: 200px;
+	margin: 15px;
 
+}
+#search input[type="button"]
+{
+	 height: 35px;
+    font-weight: 600;
+    background: orange;
+    width: 137px;
+    border: 0;
+    outline: 0;
+    border-radius: 10px;
+    margin: 20px;
 }
 #search input::placeholder
 {
@@ -139,7 +170,14 @@ nav  span
 	font-weight:800;
 	padding:1rem;
 	border-radius: 10px;
+	box-shadow: 9px 11px black;
 	
+}
+.state-div:hover,
+.country-div:hover,
+.district-div:hover
+{
+	transform: scale(1.1);
 }
 .state-name,
 .country-name,
@@ -150,6 +188,10 @@ nav  span
 	text-align: center;
 	color:blue;
 	cursor: pointer;
+}
+.state_name
+{
+	text-decoration: underline;
 }
 .state-data,
 .country-data,
