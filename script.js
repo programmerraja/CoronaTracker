@@ -1,7 +1,7 @@
 //global var to store the state name 
 var state_name_array=[];
 
-var state_codes={
+const STATE_CODES={
 				AN: "Andaman and Nicobar Islands",
 				AP: "Andhra Pradesh",
 				AR: "Arunachal Pradesh",
@@ -40,6 +40,8 @@ var state_codes={
 				UT: "Uttarakhand",
 				WB: "West Bengal",
 };
+
+const API_CLOSED_DATE="2021-02-01";
 function getAllData() {
 	/*
 		getting data from api which has  "cases_time_series"  "statewise" and "tested" details we only need statewise details
@@ -53,7 +55,7 @@ function getAllData() {
 			let prev_confirm=data["cases_time_series"][prev_index-1]["totalconfirmed"];
 			let prev_recoverd=data["cases_time_series"][prev_index-1]["totalrecovered"];
 			let prev_deaths=data["cases_time_series"][prev_index-1]["totaldeceased"];
-			console.log(data)
+			
 			//iterating only statewise object
 			$.each(data["statewise"],function(index,data){
 				//storing value for calculation
@@ -341,10 +343,15 @@ function search()
 	let search_button=document.querySelector("#search_button");
 
 	search_button.addEventListener("click",function(){
-		let date=$("#search_date").val();		
-		if(date)
+		let date=$("#search_date").val();
+		//if user requested date greater than API CLOSED DATE handle error
+		if(new Date(date)<new Date(API_CLOSED_DATE))
 		{
 			getSpecificData(date);
+		}
+		else
+		{
+			handleError();
 		}
 	});
 }
@@ -356,9 +363,9 @@ function getSpecificData(date)
 	document.querySelector(".error_container").style.display="none";
 	let link="https://api.covid19india.org/v3/data-"+date+".json";
 	$.getJSON(link,function(datas){
-		console.log(datas)
+		
 			for(data in datas){
-				console.log(datas[data])
+				
 				let data_array=[];
 				let prev_data_array=[];
 				data_array.push(date);
@@ -419,7 +426,7 @@ function getSpecificData(date)
 					}
 				}
 				//storing the coressponding sates name
-				data_array[5]=state_codes[data]?state_codes[data]:"state code is "+data;
+				data_array[5]=STATE_CODES[data]?STATE_CODES[data]:"state code is "+data;
 				
 				addDataToTable(data_array,prev_data_array,0,1);
 			}
@@ -432,7 +439,15 @@ function handleError()
 {
 	document.querySelector(".state-container").style.display="none";
 	document.querySelector(".error_container").style.display="flex";
-	console.log(document.querySelector(".error_container").style)
 }
 search();
-getAllData();
+
+//added this at api closed on feb 6 2:47
+if(new Date()<new Date(API_CLOSED_DATE))
+{
+	getAllData();
+}
+else
+{
+	handleError();
+}
